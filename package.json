@@ -1,0 +1,27 @@
+{
+  "name": "aussie",
+  "version": "0.0.1",
+  "description": "Sequence abstraction and functions working with it, inspired by Clojure language",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers js:@babel/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kvstepanov/sequence.git"
+  },
+  "author": "Kirill Stepanov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kvstepanov/sequence/issues"
+  },
+  "homepage": "https://github.com/kvstepanov/sequence#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/register": "^7.0.0",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  }
+}
