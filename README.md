@@ -1,2 +1,3 @@
-# sequence
-Set of functions to be applied to sequences
+# Aussie
+
+Insipired by Clojure set of function for functional programming.
