@@ -1,11 +1,16 @@
 import { expect } from "chai";
 import {
   Sequence,
+  nil,
+  isNil,
   map,
+  isEmpty,
   first,
+  second,
   rest,
   cons,
   conj,
+  get,
   apply,
   str
 } from "../src/sequence";
@@ -14,9 +19,31 @@ describe("Sequence", function() {
   it("Creates sequence from array", function() {
     expect(Sequence.of([1, 2]) instanceof Sequence).to.be.true;
   });
+
+  it("Creates sequence from string", function() {
+    expect(Sequence.of("") instanceof Sequence).to.be.true;
+  });
 });
 
 describe("Core functions", function() {
+  describe("isNil", function() {
+    it("checks if some value equals nil constant", function() {
+      expect(isNil(nil)).to.be.true;
+    });
+  });
+
+  describe("isEmpty", function() {
+    it("works with arrays", function() {
+      expect(isEmpty([])).to.be.true;
+      expect(isEmpty([1])).to.be.false;
+    });
+
+    it("works with strings", function() {
+      expect(isEmpty("")).to.be.true;
+      expect(isEmpty("1")).to.be.false;
+    });
+  });
+
   describe("first", function() {
     it("returns first element of a string", function() {
       expect(first("hello")).to.be.eq("h");
@@ -24,6 +51,24 @@ describe("Core functions", function() {
 
     it("returns first element of an array", function() {
       expect(first([1, 2, 3])).to.be.eq(1);
+    });
+
+    it("returns nil if coll is empty", function() {
+      expect(first("")).to.be.eq(nil);
+    });
+  });
+
+  describe("second", function() {
+    it("returns second element of a string", function() {
+      expect(second("hello")).to.be.eq("e");
+    });
+
+    it("returns second element of an array", function() {
+      expect(second([1, 2, 3])).to.be.eq(2);
+    });
+
+    it("returns nil if coll is empty", function() {
+      expect(second("")).to.be.eq(nil);
     });
   });
 
@@ -55,6 +100,35 @@ describe("Core functions", function() {
     it("appends new value to a string", function() {
       expect(conj("bc", "a")).to.be.deep.eq(["b", "c", "a"]);
     });
+  });
+
+  describe("get", function() {
+    it("returns an element of an array by its index", function() {
+      expect(get(["a", "b"], 1)).to.be.eq("b");
+    });
+
+    it("returns an element of a string by its index", function() {
+      expect(get("ab", 1)).to.be.eq("b");
+    });
+
+    it("returns an element of an object by key", function() {
+      expect(get({ a: "b" }, "a")).to.be.eq("b");
+    });
+
+    it("returns nil if key not present in coll", function() {
+      expect(get([], 0)).to.be.eq(nil);
+      expect(get("", 0)).to.be.eq(nil);
+      expect(get({}, 0)).to.be.eq(nil);
+    });
+
+    it("returns default value if it was provided", function() {
+      expect(get([], 1, "default")).to.be.eq("default");
+      expect(get("", 1, "default")).to.be.eq("default");
+      expect(get({}, 1, "default")).to.be.eq("default");
+    });
+
+    //if empty return nil
+    //implement nth
   });
 
   describe("map", function() {

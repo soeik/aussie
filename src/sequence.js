@@ -15,7 +15,7 @@ export class Sequence extends Array {
  * For any other single value will return sequence containing this value
  */
 Sequence.of = function(source) {
-  if (!source) return;
+  // if (!source) return;
   if (source instanceof Sequence) {
     return source;
   } else if (Array.isArray(source) || typeof source === "string") {
@@ -33,12 +33,40 @@ Sequence.of = function(source) {
 };
 
 /**
+ * Global nil object
+ */
+export const nil = {};
+
+/**
+ * Check if value is nil
+ * @param {*} value
+ */
+export function isNil(value) {
+  return value === nil;
+}
+
+/**
+ * Checks if coll is empty
+ * @param {*} coll
+ */
+export function isEmpty(coll) {
+  return coll.length === 0;
+}
+
+/**
  * Takes a collection, returns its fist element
  * @param {*} coll - collection
  */
-export function first(coll) {
-  const seq = Sequence.of(coll);
-  return seq[0];
+export function first(coll = []) {
+  return coll.length > 0 ? Sequence.of(coll)[0] : nil;
+}
+
+/**
+ * Takes a collection, returns its second element
+ * @param {*} coll - collection
+ */
+export function second(coll = []) {
+  return coll.length > 1 ? Sequence.of(coll)[1] : nil;
 }
 
 /**
@@ -48,11 +76,7 @@ export function first(coll) {
 export function rest(coll) {
   const seq = Sequence.of(coll);
   const sliced = seq.slice(1, seq.length);
-  if (sliced.length === 0) {
-    return null;
-  } else {
-    return sliced;
-  }
+  return isEmpty(sliced) ? nil : sliced;
 }
 
 /**
@@ -64,7 +88,7 @@ export function rest(coll) {
 export function cons(newValue, coll) {
   const seq = Sequence.of(coll);
   // const newSeq = Sequence.of(newValue);
-  return coll === null ? [newValue] : [newValue].concat(seq);
+  return isNil(coll) ? [newValue] : [newValue].concat(seq);
 }
 
 /**
@@ -86,11 +110,16 @@ export function conj(coll, ...xs) {
  */
 export function map(transform, coll) {
   const seq = Sequence.of(coll);
-  if (coll === null) {
-    return null;
-  } else {
-    return cons(transform(first(seq)), map(transform, rest(seq)));
-  }
+
+  return isNil(coll)
+    ? nil
+    : cons(transform(first(seq)), map(transform, rest(seq)));
+}
+
+export function get(coll, key, notFound = nil) {
+  const seq = Sequence.of(coll);
+
+  return coll[key] || notFound;
 }
 
 /**
