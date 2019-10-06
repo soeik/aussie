@@ -1,3 +1,3 @@
 # Aussie
 
-Insipired by Clojure set of function for functional programming.
+Some of Clojure.core functions naively implemented in JavaScript
